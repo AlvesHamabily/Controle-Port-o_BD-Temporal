@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle do Portão</title>
+    <link rel="stylesheet" href="./index.css">
+   
+</head>
+<body>
+    <h1>Controle do Portão</h1>
+    <button onclick="enviarComando('abrir')">Abrir</button>
+    <button onclick="enviarComando('fechar')">Fechar</button>
+    <button onclick="carregarHistorico()" class="historico">Histórico</button>
+    <div id="historico"></div>
+</body>
+
+
+<script>
+      async function enviarComando(acao) {
+        const resposta = await fetch(`http://localhost:3000/${acao}`, { method: "POST" });
+        const resultado = await resposta.json();
+        alert(resultado.message);
+    }
+async function carregarHistorico() {
+    const resposta = await fetch("http://localhost:3000/historico");
+    const historico = await resposta.json();
+    const historicoDiv = document.getElementById("historico");
+
+    historicoDiv.innerHTML = "";  
+    if (historico.length > 0) {
+        historico.forEach(entry => {
+            const p = document.createElement("p");
+            p.textContent = `${entry.data_hora} - Portão ${entry.estado}`;
+            historicoDiv.appendChild(p);
+        });
+    } else {
+        historicoDiv.innerHTML = "<p>Nenhum registro encontrado.</p>";
+    }
+}
+
+</script>
+</html>
