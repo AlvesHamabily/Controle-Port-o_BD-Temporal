@@ -46,4 +46,4 @@ A interface apresenta botões para controlar o estado do portão (Abrir, Fechar)
 
 4. Inicie o servidor:
    ```bash
-    node index.js
+    node index.html
